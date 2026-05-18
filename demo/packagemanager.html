@@ -1,16 +1,23 @@
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"/>
-
-    <title>existdb-launcher demo</title>
-
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../dependencies-local.html"/>
-
-</head>
-<body>
-    <iron-meta id="meta" key="env" value="packagemanager"></iron-meta>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"
+    />
+    <title>existdb-launcher demo (packagemanager)</title>
+    <link rel="stylesheet" href="/node_modules/@awesome.me/webawesome/dist/styles/webawesome.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+    </style>
+    <script type="module" src="/src/existdb-launcher-app.js"></script>
+  </head>
+  <body>
     <existdb-launcher-app path="/launcher"></existdb-launcher-app>
-</body>
+  </body>
 </html>

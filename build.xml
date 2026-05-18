@@ -1,61 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="xar" name="launcher">
     <xmlproperty file="expath-pkg.xml"/>
-    <!--<property name="app.name" value=""/>-->
     <property name="project.version" value="${package(version)}"/>
     <property name="project.app" value="${package(abbrev)}"/>
     <property name="build.dir" value="build"/>
-    <property name="polymer.build.dir" value="${build.dir}/default"/>
 
-    <target name="xar">
-        <mkdir dir="${build.dir}"/>
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="bower.json.bak build.xml ${build.dir}/**, node_modules/**, doc/**, gulpfile.js, package.json"/>
+    <target name="xar" description="Build XAR via npm (gulp xar)">
+        <echo>Run: npm run build:production &amp;&amp; npm run xar</echo>
+        <exec executable="npm" failonerror="true">
+            <arg value="run"/>
+            <arg value="build:production"/>
+        </exec>
+        <exec executable="npm" failonerror="true">
+            <arg value="run"/>
+            <arg value="xar"/>
+        </exec>
     </target>
 
     <target name="clean-all">
         <delete dir="${build.dir}"/>
-    </target>
-
-    <!--
-    cleans a the Polymer build directories
-    -->
-    <target name="clean-polymer-build">
-        <delete dir="${polymer.build.dir}"/>
-    </target>
-
-    <!--
-    produces a production version for Polymer apps. This will compress all imported web components into a single html.
-    This is highly advisable for final distributions as it boils down the package dramatically.
-
-    Note: in the context of a single component this target might be of minor importance but is put here for usage
-     in your own projects.
-    -->
-    <target name="polymer-build-production" depends="clean-polymer-build">
-        <exec executable="polymer" dir="${basedir}">
-            <arg value="build"/>
-            <arg value="--bundle"/>
-            <arg value="--sources"/>
-            <arg value="*.html"/>
-            <arg value="--entrypoint"/>
-            <arg value="index.html"/>
-        </exec>
-    </target>
-
-
-    <!--
-    creates a xar file with optimized Polymer components
-    -->
-    <target name="production-xar" depends="polymer-build-production">
-        <mkdir dir="${build.dir}"/>
-
-        <copy file="controller.xql" todir="${polymer.build.dir}"/>
-        <copy file="expath-pkg.xml" todir="${polymer.build.dir}"/>
-        <!--<copy file="configuration.xml" todir="${build.dir}/bundled"/>-->
-        <copy file="repo.xml" todir="${polymer.build.dir}"/>
-        <copy file="icon.svg" todir="${polymer.build.dir}"/>
-        <copydir src="${basedir}/modules" dest="${polymer.build.dir}/modules" />
-        <copydir src="${basedir}/resources" dest="${polymer.build.dir}/resources" />
-
-        <zip basedir="${polymer.build.dir}" destfile="${build.dir}/${project.app}-${project.version}-prod.xar" excludes="demo"/>
+        <delete dir="dist"/>
     </target>
 </project>

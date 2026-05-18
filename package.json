@@ -1,26 +1,75 @@
 {
-  "name": "launcher",
-  "version": "1.2.4",
-  "description": "existdb-launcher",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "existdb-launcher",
+  "version": "2.0.0",
+  "description": "Lit web UI for eXist-db application launcher",
+  "type": "module",
+  "license": "LGPL-2.1-or-later",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/eXist-db/launcher.git"
   },
-  "author": "",
-  "license": "ISC",
+  "main": "dist/existdb-launcher.js",
+  "module": "dist/existdb-launcher.js",
+  "exports": {
+    ".": "./dist/existdb-launcher.js",
+    "./dist/*": "./dist/*",
+    "./existdb-launcher-app.js": "./dist/existdb-launcher-app.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "vite",
+    "dev": "vite --no-open",
+    "build": "rollup -c rollup.config.mjs",
+    "build:production": "rollup -c rollup.config.mjs --environment BUILD:production",
+    "prebuild": "node scripts/sync-pkg-version.mjs",
+    "prebuild:production": "node scripts/sync-pkg-version.mjs",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "lint:eslint": "eslint .",
+    "format:eslint": "eslint . --fix",
+    "lint:prettier": "prettier \"**/*.{js,mjs,json,html,md}\" --check --ignore-path .gitignore",
+    "format:prettier": "prettier \"**/*.{js,mjs,json,html,md}\" --write --ignore-path .gitignore",
+    "cy:open": "concurrently --kill-others --success first \"vite --no-open\" \"cypress open\"",
+    "cy:run:ct": "CYPRESS=1 cypress run --component",
+    "cy:run:e2e": "concurrently --kill-others --success first \"vite --no-open\" \"cypress run --e2e\"",
+    "xar": "gulp xar",
+    "semantic-release": "semantic-release"
+  },
+  "dependencies": {
+    "@awesome.me/webawesome": "^3.7.0",
+    "@existdb/repo-elements": "file:../repo-elements",
+    "lit": "^3.2.1"
+  },
   "devDependencies": {
-    "brace-expansion": "^1.1.4",
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-exist": "^1.4.1",
-    "gulp-less": "^3.1.0",
-    "gulp-watch": "^4.3.6",
-    "less-plugin-autoprefix": "^1.5.1",
-    "less-plugin-clean-css": "^1.5.1",
-    "bower": "^1.8.0"
+    "@existdb/gulp-exist": "^6.0.0",
+    "@open-wc/eslint-config": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.2",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "concurrently": "^9.2.1",
+    "cypress": "^15.15.0",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^6.3.1",
+    "fast-xml-parser": "^5.8.0",
+    "gulp": "^5.0.0",
+    "gulp-zip": "^6.1.0",
+    "prettier": "^3.8.3",
+    "rollup": "^4.60.2",
+    "semantic-release": "^25.0.3",
+    "vite": "^8.0.10"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none",
+    "printWidth": 100
   }
 }
